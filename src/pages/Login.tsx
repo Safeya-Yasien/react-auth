@@ -1,6 +1,21 @@
 import { Link } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+import Input from "../components/Form/Input";
+import { loginSchema, TLoginFormInputs } from "../validations/loginSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TLoginFormInputs>({
+    mode: "onBlur",
+    resolver: zodResolver(loginSchema),
+  });
+  const onSubmit: SubmitHandler<TLoginFormInputs> = (data) => console.log(data);
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
@@ -8,40 +23,33 @@ const Login = () => {
           Login to Your Account
         </h2>
 
-        <form className="space-y-4">
-          <div>
-            <label
-              htmlFor="email"
-              className="block mb-1 text-sm font-semibold text-gray-600"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Enter your email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              required
-            />
-          </div>
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+          <Input
+            label="Email"
+            id="email"
+            placeholder="Enter your email"
+            name="email"
+            register={register}
+            error={errors.email?.message}
+          />
 
-          <div>
-            <label
-              htmlFor="password"
-              className="block mb-1 text-sm font-semibold text-gray-600"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Enter your password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              required
-            />
-          </div>
+          <Input
+            label="Password"
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            name="password"
+            register={register}
+            error={errors.password?.message}
+          />
+
+          <Input
+            label="Remember Me"
+            type="checkbox"
+            id="remember_me"
+            name="remember_me"
+            register={register}
+          />
 
           <button
             type="submit"
