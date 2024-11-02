@@ -5,6 +5,7 @@ import {
   registerSchema,
   TRegisterFormInputs,
 } from "../validations/registerSchema";
+import Input from "../components/Form/Input";
 
 const Register = () => {
   const {
@@ -28,105 +29,48 @@ const Register = () => {
         </h2>
 
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <label
-              htmlFor="first_name"
-              className="block mb-1 text-sm font-semibold text-gray-600"
-            >
-              First name
-            </label>
-            <input
-              type="text"
-              id="first_name"
-              placeholder="Enter your first name"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              required
-              {...register("first_name")}
-            />
-            {errors.first_name && (
-              <p className="text-red-600 text-sm">
-                {errors.first_name.message}
-              </p>
-            )}
-          </div>
-          <div>
-            <label
-              htmlFor="last_name"
-              className="block mb-1 text-sm font-semibold text-gray-600"
-            >
-              Last name
-            </label>
-            <input
-              type="text"
-              id="last_name"
-              placeholder="Enter your last name"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              required
-              {...register("last_name")}
-            />
-            {errors.last_name && (
-              <p className="text-red-600 text-sm">{errors.last_name.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="email"
-              className="block mb-1 text-sm font-semibold text-gray-600"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              placeholder="Enter your email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              {...register("email")}
-            />
-            {errors.email && (
-              <p className="text-red-600 text-sm">{errors.email.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="password"
-              className="block mb-1 text-sm font-semibold text-gray-600"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Enter your password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              {...register("password")}
-            />
-            {errors.password && (
-              <p className="text-red-600 text-sm">{errors.password.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="confirm_password"
-              className="block mb-1 text-sm font-semibold text-gray-600"
-            >
-              Confirm password
-            </label>
-            <input
-              type="password"
-              id="confirm_password"
-              placeholder="Repeat Password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              {...register("confirm_password")}
-            />
-            {errors.confirm_password && (
-              <p className="text-red-600 text-sm">
-                {errors.confirm_password.message}
-              </p>
-            )}
-          </div>
+          <Input
+            label="First name"
+            id="first_name"
+            placeholder="Enter your first name"
+            name="first_name"
+            register={register}
+            error={errors.first_name?.message}
+          />
+          <Input
+            label="Last name"
+            id="last_name"
+            placeholder="Enter your last name"
+            name="last_name"
+            register={register}
+            error={errors.last_name?.message}
+          />
+          <Input
+            label="Email"
+            id="email"
+            placeholder="Enter your email"
+            name="email"
+            register={register}
+            error={errors.email?.message}
+          />
+          <Input
+            label="Password"
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            name="password"
+            register={register}
+            error={errors.password?.message}
+          />
+          <Input
+            label="Confirm password"
+            type="confirm_password"
+            id="confirm_password"
+            placeholder="Repeat Password"
+            name="confirm_password"
+            register={register}
+            error={errors.password?.message}
+          />
 
           <button
             type="submit"
