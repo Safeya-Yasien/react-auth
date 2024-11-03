@@ -43,14 +43,6 @@ const Login = () => {
             error={errors.password?.message}
           />
 
-          <Input
-            label="Remember Me"
-            type="checkbox"
-            id="remember_me"
-            name="remember_me"
-            register={register}
-          />
-
           <button
             type="submit"
             className="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-offset-1"

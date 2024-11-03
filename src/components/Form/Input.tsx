@@ -8,7 +8,6 @@ type TInputProps<TFiledValue extends FieldValues> = {
   name: Path<TFiledValue>;
   register: UseFormRegister<TFiledValue>;
   error?: string;
-  rememberMe?: boolean;
 };
 
 const Input = <TFieldValue extends FieldValues>({
@@ -21,13 +20,7 @@ const Input = <TFieldValue extends FieldValues>({
   error,
 }: TInputProps<TFieldValue>) => {
   return (
-    <div
-      className={` ${
-        type === "checkbox"
-          ? "flex flex-row items-center gap-2"
-          : "flex flex-col gap-2"
-      }`}
-    >
+    <div className="flex flex-col gap-2">
       <label htmlFor={id} className="block text-sm font-semibold text-gray-600">
         {label}
       </label>
@@ -36,9 +29,7 @@ const Input = <TFieldValue extends FieldValues>({
         id={id}
         placeholder={placeholder}
         className={
-          type === "checkbox"
-            ? "w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-            : "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
         }
         {...register(name)}
       />
