@@ -21,11 +21,14 @@ const Input = <TFieldValue extends FieldValues>({
   error,
 }: TInputProps<TFieldValue>) => {
   return (
-    <div>
-      <label
-        htmlFor={id}
-        className="block mb-1 text-sm font-semibold text-gray-600"
-      >
+    <div
+      className={` ${
+        type === "checkbox"
+          ? "flex flex-row items-center gap-2"
+          : "flex flex-col gap-2"
+      }`}
+    >
+      <label htmlFor={id} className="block text-sm font-semibold text-gray-600">
         {label}
       </label>
       <input

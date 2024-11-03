@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 
 const MainLayout = () => {
   return (
-    <div className="p-8 ">
+    <div className="pt-8 min-h-screen bg-gray-100">
       <header className="">
         <ul className="flex items-center gap-4 justify-center ">
           <li>
