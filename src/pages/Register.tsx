@@ -1,13 +1,18 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   registerSchema,
   TRegisterFormInputs,
 } from "../validations/registerSchema";
 import Input from "../components/Form/Input";
+import { axiosInstance } from "../services/axiosConfig";
+import { useState } from "react";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -17,8 +22,32 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit: SubmitHandler<TRegisterFormInputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<TRegisterFormInputs> = async ({
+    first_name,
+    last_name,
+    email,
+    password,
+  }) => {
+    const username = `${first_name} ${last_name}`;
+    setLoading(true);
+    try {
+      await axiosInstance({
+        url: "/auth/signup",
+        method: "POST",
+        data: {
+          username,
+          email,
+          password,
+        },
+      });
+      console.log("Registered successfully");
+      navigate("/login");
+    } catch (error) {
+      console.error("Error validating form:", error);
+      return;
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -64,19 +93,22 @@ const Register = () => {
           />
           <Input
             label="Confirm password"
-            type="confirm_password"
+            type="password"
             id="confirm_password"
             placeholder="Repeat Password"
             name="confirm_password"
             register={register}
-            error={errors.password?.message}
+            error={errors.confirm_password?.message}
           />
 
           <button
             type="submit"
-            className="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-offset-1"
+            disabled={loading}
+            className={`w-full py-2 mt-4 text-white ${
+              loading ? "bg-gray-400" : "bg-blue-500"
+            } rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-offset-1`}
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
 

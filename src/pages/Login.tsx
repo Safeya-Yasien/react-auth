@@ -1,11 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import Input from "../components/Form/Input";
 import { loginSchema, TLoginFormInputs } from "../validations/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { axiosInstance } from "../services/axiosConfig";
+import { useState } from "react";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -14,7 +19,25 @@ const Login = () => {
     mode: "onBlur",
     resolver: zodResolver(loginSchema),
   });
-  const onSubmit: SubmitHandler<TLoginFormInputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<TLoginFormInputs> = async ({
+    email,
+    password,
+  }) => {
+    setLoading(true);
+    try {
+      await axiosInstance({
+        url: "/auth/login",
+        method: "POST",
+        data: { email, password },
+      });
+      alert("Login successful!");
+      navigate("/");
+    } catch (error) {
+      console.error("Error during login:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen ">
@@ -45,9 +68,12 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-offset-1"
+            disabled={loading}
+            className={`w-full py-2 mt-4 text-white ${
+              loading ? "bg-gray-400" : "bg-blue-500"
+            } rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-offset-1`}
           >
-            Login
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
 
