@@ -1,15 +1,19 @@
+"use client";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
+import Cookies from "js-cookie";
 
 import Input from "../components/Form/Input";
 import { loginSchema, TLoginFormInputs } from "../validations/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { axiosInstance } from "../services/axiosConfig";
 import { useState } from "react";
+import { useAuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { setAuth } = useAuthContext();
 
   const {
     register,
@@ -25,12 +29,15 @@ const Login = () => {
   }) => {
     setLoading(true);
     try {
-      await axiosInstance({
+      const response = await axiosInstance({
         url: "/auth/login",
         method: "POST",
         data: { email, password },
       });
       alert("Login successful!");
+      setAuth(true);
+      const token = response.data.token;
+      Cookies.set("token", token);
       navigate("/");
     } catch (error) {
       console.error("Error during login:", error);
