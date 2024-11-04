@@ -47,6 +47,14 @@ const MainLayout = () => {
               Register
             </Link>
           </li>
+          <li>
+            <Link
+              to="products"
+              className="text-lg font-semibold hover:text-red-600"
+            >
+              Products
+            </Link>
+          </li>
         </ul>
       </header>
       <Outlet />
